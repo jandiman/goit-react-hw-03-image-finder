@@ -48,9 +48,7 @@ export class App extends Component {
 
       if (page * 12 >= totalHits) {
         this.setState({ isEnd: true });
-        toast("Uh-oh!, you've reached the end of search results.", {
-          icon: '🚨',
-        });
+        toast("Uh oh, you've reached the end of search results.");
       }
 
       this.setState(prevState => ({

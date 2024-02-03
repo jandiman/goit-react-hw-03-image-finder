@@ -48,9 +48,7 @@ export class App extends Component {
 
       if (page * 12 >= totalHits) {
         this.setState({ isEnd: true });
-        toast("Uh-oh!, you've reached the end of search results.", {
-          icon: '🚨',
-        });
+        toast("Uh oh, you've reached the end of search results.");
       }
 
       this.setState(prevState => ({
@@ -83,8 +81,10 @@ export class App extends Component {
     return (
       <div className={css.app}>
         <Searchbar onSubmit={this.handleSubmit} />
+        {/* Render ImageGallery Component when there is atleast one match of images */}
         {images.length >= 1 && <ImageGallery photos={images} />}
 
+        {/* Render Button Component when there is atleast a second page or more and it's not the end of page */}
         {images.length >= 2 && !isEnd && <Button onClick={this.handleClick} />}
         {isLoading && <Loader />}
         {isError &&

@@ -35,6 +35,7 @@ export class App extends Component {
 
       console.log(hits, totalHits);
 
+      // Display an error message, if there is no match with the search
       if (hits.length === 0) {
         toast.error(
           'Sorry, there are no images matching your search query. Please try again.'
@@ -42,17 +43,18 @@ export class App extends Component {
         return;
       }
 
+      // Display a success message if it's the first page
       if (page === 1) {
-        toast.success(`Yahoo! We found ${totalHits} images!`);
+        toast.success(`Hooray! We found ${totalHits} images!`);
       }
 
+      // Display a message if page is already at the end of data (12 = per_page based on API call)
       if (page * 12 >= totalHits) {
         this.setState({ isEnd: true });
-        toast("Uh-oh!, you've reached the end of search results.", {
-          icon: '🚨',
-        });
+        toast("We're sorry, but you've reached the end of search results.");
       }
 
+      // Update the state with the new images
       this.setState(prevState => ({
         images: [...prevState.images, ...hits],
       }));
@@ -83,8 +85,10 @@ export class App extends Component {
     return (
       <div className={css.app}>
         <Searchbar onSubmit={this.handleSubmit} />
+        {/* Render ImageGallery Component when there is atleast one match of images */}
         {images.length >= 1 && <ImageGallery photos={images} />}
 
+        {/* Render Button Component when there is atleast a second page or more and it's not the end of page */}
         {images.length >= 2 && !isEnd && <Button onClick={this.handleClick} />}
         {isLoading && <Loader />}
         {isError &&
